@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oglądaj Filmy</title>
+    <style>
+        /* Styl podstawowy strony */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background: #1a001a;
+            overflow: hidden;
+            color: #e600e6;
+            text-shadow: 0 0 10px #e600e6, 0 0 20px #e600e6;
+        }
+
+        /* Tło z gwiazdami */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            animation: stars 50s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes stars {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 1000px 1000px;
+            }
+        }
+
+        /* Nagłówek (menu) */
+        header {
+            width: 100%;
+            background: #29102C;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 20px #e600e6, 0 0 40px #ff33ff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Styl animacji poświaty */
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px #e600e6, 0 0 40px #e600e6;
+            }
+            to {
+                box-shadow: 0 0 40px #ff33ff, 0 0 60px #ff33ff;
+            }
+        }
+
+        /* Przycisk menu */
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 10px;
+            font-size: 1em;
+            text-shadow: 0 0 10px #e600e6, 0 0 20px #e600e6;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #e600e6;
+            border-radius: 5px;
+        }
+
+        /* Kontener filmu */
+        .video-container {
+            margin-top: 80px;
+            width: 740px;
+            height: 420px;
+            border: 5px solid #e600e6;
+            box-shadow: 0 0 20px #e600e6, 0 0 40px #ff33ff;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Treść strony */
+        .content {
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nagłówek (menu) -->
+    <header>
+        <nav>
+            <a href="#">XDMAKV</a>
+            <a href="#">|</a>
+            <a href="#">Discord</a>
+            <a href="javascript:alert(error)">Telegram</a>
+            <a href="#">TikTok</a>
+        </nav>
+    </header>
+
+    <!-- Treść strony -->
+    <div class="content">
+        <div class="video-container">
+            <iframe id="videoPlayer" width="740" height="420" frameborder="0" allowfullscreen="true" allowscriptaccess="always" scrolling="no"></iframe>
+        </div>
+    </div>
+<script>
+    error = "Wkrótce!"
+</script>
+    <script>
+        // Funkcja do pobierania parametrów URL
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Funkcja do zmiany URL playera na podstawie parametrów
+        function setPlayerUrl() {
+            const videoId = getUrlParameter('v');
+            const fileId = getUrlParameter('f');
+            const cdaId = getUrlParameter('c');
+            let videoUrl = '';
+
+            if (videoId) {
+                videoUrl = `//vider.info/embed/video/${videoId}`;
+            } else if (fileId) {
+                const parts = fileId.split(',');
+                const freediscId = parts[1].split('-')[1]; // Wyciągamy drugi fragment ID
+                videoUrl = `//freedisc.pl/embed/video/${freediscId}`;
+            } else if (cdaId) {
+                videoUrl = `//ebd.cda.pl/740x420/${cdaId}`;
+            }
+            
+            // Ustawienie URL do playera
+            if (videoUrl) {
+                document.getElementById('videoPlayer').src = videoUrl;
+            }
+        }
+
+        // Ustawienie odpowiedniego URL playera przy załadowaniu strony
+        window.onload = setPlayerUrl;
+    </script>
+</body>
+</html>
